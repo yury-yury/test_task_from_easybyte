@@ -4,7 +4,7 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 
-from core.handlers.basic import get_start
+from core.handlers.basic import get_start, get_help, get_change_currency
 from core.settings import settings
 from core.utils.commands import set_commands
 
@@ -32,6 +32,8 @@ async def start():
     dp.shutdown.register(stop_bot)
 
     dp.message.register(get_start, Command(commands=["start", "run"]))
+    dp.message.register(get_help, Command(commands='help'))
+    dp.message.register(get_change_currency, Command(commands='convert'))
 
     try:
         await dp.start_polling(bot)
