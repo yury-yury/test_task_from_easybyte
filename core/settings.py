@@ -10,6 +10,7 @@ class Settings(BaseSettings):
 
     TG_TOKEN: str
     ADMIN_ID: int
+    APP_ID: str
 
     model_config = SettingsConfigDict(env_file=".env")
 

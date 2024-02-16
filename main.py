@@ -1,10 +1,12 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
 
-from core.handlers.basic import get_start, get_help, get_change_currency
+from core.filters.goodbay import GoodbyeFilter
+from core.filters.greetings import GreetingFilter
+from core.handlers.basic import get_start, get_help, get_change_currency, get_goodbye
 from core.settings import settings
 from core.utils.commands import set_commands
 
@@ -21,6 +23,8 @@ async def stop_bot(bot: Bot):
 async def start():
     logging.basicConfig(
         level=logging.INFO,
+        filename="bot_log.log",
+        filemode="a",
         format="%(asctime)s - [%(levelname)s] - %(name)s - (%(filename)s.%(funcName)s(%(lineno)d) - %(message)s",
     )
 
@@ -34,6 +38,8 @@ async def start():
     dp.message.register(get_start, Command(commands=["start", "run"]))
     dp.message.register(get_help, Command(commands='help'))
     dp.message.register(get_change_currency, Command(commands='convert'))
+    dp.message.register(get_start, GreetingFilter())
+    dp.message.register(get_goodbye, GoodbyeFilter())
 
     try:
         await dp.start_polling(bot)

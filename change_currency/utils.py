@@ -7,7 +7,6 @@ from change_currency.parser import update_values_rate
 
 def get_rate(name_currency: str) -> Optional[float]:
     conn = redis.Redis()
-    print(conn.ping())
 
     rate = conn.get(name_currency)
 
