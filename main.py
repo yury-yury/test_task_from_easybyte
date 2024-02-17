@@ -11,16 +11,26 @@ from core.settings import settings
 from core.utils.commands import set_commands
 
 
-async def start_bot(bot: Bot):
+async def start_bot(bot: Bot) -> None:
+    """
+    The asynchronous function start_bot determines the contents of the bot menu
+    and sends a message to the administrator about starting the bot.
+    """
     await set_commands(bot)
     await bot.send_message(settings.ADMIN_ID, "Бот запущен.")
 
 
-async def stop_bot(bot: Bot):
+async def stop_bot(bot: Bot) -> None:
+    """
+    The asynchronous stop_bot function sends a message to the administrator to stop the bot.
+    """
     await bot.send_message(settings.ADMIN_ID, "Бот остановлен.")
 
 
-async def start():
+async def start() -> None:
+    """
+    The asynchronous start function is the entry point to the application and contains instances of the main classes.
+    """
     logging.basicConfig(
         level=logging.INFO,
         filename="bot_log.log",
