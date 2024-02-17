@@ -1,3 +1,4 @@
+import logging
 from random import choice
 
 from aiogram import Bot
@@ -8,6 +9,7 @@ from change_currency.utils import get_rate
 
 
 async def get_start(message: Message, bot: Bot):
+    logging.info(f'Message {message.text} is handel')
     phrases = ["Привет! Отлично выглядишь :)",
         "Хэллоу, сегодня будет отличный день!",
         "Здравствуй)) улыбнись :)"]
@@ -19,6 +21,7 @@ async def get_start(message: Message, bot: Bot):
 
 
 async def get_help(message: Message, bot: Bot):
+    logging.info(f'Message {message.text} is handel')
     await message.answer(
         "<b>Основные команды</b>\n"
         "/start - Начало работы с ботом\n"
@@ -28,20 +31,29 @@ async def get_help(message: Message, bot: Bot):
 
 
 async def get_change_currency(message: Message, command: CommandObject):
+    logging.info(f'Message {message.text} is handel')
     if command.args is None:
+        logging.error('Arguments were not passed')
         await message.answer("Ошибка: не переданы аргументы")
         return
 
     try:
         count, cur_from, _, cur_to = command.args.split(' ')
         if not count.isdigit():
+            logging.error('The transferred amount of the convertible currency is not a valid value.')
+            raise ValueError
+        if _ != 'to':
+            logging.error('The to word is missing from the request arguments.')
             raise ValueError
         if len(cur_to) != 3 or not cur_to.isalpha() or not cur_to.isupper():
+            logging.error('The letter code of the target currency is not valid.')
             raise ValueError
         if len(cur_from) != 3 or not cur_from.isalpha() or not cur_from.isupper():
+            logging.error('The letter code of the source currency is not valid.')
             raise ValueError
 
     except ValueError:
+        logging.error('The command format is incorrect.')
         await message.answer("Ошибка: неправильный формат команды. Пример:\n"
                              "/convert 100 USD to EUR")
         return
@@ -57,6 +69,7 @@ async def get_change_currency(message: Message, command: CommandObject):
 
 
 async def get_goodbye(message: Message, bot: Bot):
+    logging.info(f'Message {message.text} is handel')
     phrases = ["Пока! Приятного дня :)",
                "Удачи, возвращайся!",
                "До свидания, рад был пообщаться"]

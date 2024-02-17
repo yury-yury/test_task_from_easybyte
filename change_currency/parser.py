@@ -11,7 +11,7 @@ def update_values_rate() -> dict:
     response = requests.get(
         f"https://openexchangerates.org/api/latest.json?app_id={settings.APP_ID}")
     if response.status_code == 200:
-        logging.info('Request outer API is successfully')
+        logging.info('Request outer API to update database is successfully')
         dict_rates = response.json()['rates']
 
         conn = redis.Redis()
